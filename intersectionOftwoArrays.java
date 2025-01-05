@@ -1,5 +1,8 @@
 package DSA;
 
+import java.util.HashSet;
+import java.util.Set;
+//code start form below
 class Solution {
     public int[] intersection(int[] nums1, int[] nums2) {
         Set <Integer> set1=new HashSet<>();
