@@ -1,3 +1,7 @@
+package DSA;
+
+import java.util.HashMap;
+
 class Solution {
     public int romanToInt(String s) {
         HashMap<Character,Integer> map=new HashMap<>();

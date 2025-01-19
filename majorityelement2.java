@@ -1,5 +1,8 @@
 package DSA;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
     public List<Integer> majorityElement(int[] v) {
         int n = v.length; //size of the array
