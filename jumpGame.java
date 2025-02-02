@@ -1,3 +1,5 @@
+package DSA;
+
 class Solution {
     public boolean canJump(int[] nums) {
      int i=0;
