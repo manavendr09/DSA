@@ -11,19 +11,25 @@
 class Solution {
     public ListNode reverseList(ListNode head) {
         if(head==null || head.next==null) return head;
-        ListNode p=head;
-        ListNode c=head.next;
-        while(c!=null){
-            ListNode n=c.next;
-            c.next=p;
-            //update karenge sara
-            
-            p=c;
-            c=n;
-            
-        }
-        head.next=c;
-        head=p;
-        return head;
+        ListNode l=reverseList(head.next);
+        head.next.next=head;
+        head.next=null;
+        return l;
     }
 }
+
+        // if(head==null || head.next==null) return head;
+        // ListNode p=head;
+        // ListNode c=head.next;
+        // while(c!=null){
+        //     ListNode n=c.next;
+        //     c.next=p;
+        //     //update karenge sara   
+        //     p=c;
+        //     c=n;
+        // }
+        // head.next=c;
+        // head=p;
+        // return head;
+//     }
+// }
