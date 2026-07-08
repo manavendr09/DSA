@@ -27,47 +27,46 @@
 // }
 // }
 class Solution {
-    private static final int MOD = 1000000007;
-    private static final int MAX = 100001;
-    private static final int[] pow = new int[MAX];
-
-    static {
-        pow[0] = 1;
-        for (int i = 1; i < MAX; i++)
-            pow[i] = (int) ((pow[i - 1] * 10L) % MOD);
-    }
-
     public int[] sumAndMultiply(String s, int[][] queries) {
-        int n = s.length();
-        int[] A = new int[n + 1];
-        int[] B = new int[n + 1];
-        int[] len = new int[n + 1];
-
-        for (int i = 0; i < n; i++) {
-            int d = s.charAt(i) - '0';            
-            A[i + 1] = A[i] + d;
+        long MOD = 1_000_000_007;
+        int len = s.length();
+        
+        long[] preSum = new long[len + 1];
+        long[] preProduct = new long[len + 1];
+        int[] nonZeroCnt = new int[len + 1];
+        long[] p10 = new long[len + 1];
+        
+        p10[0] = 1;
+        for (int i = 0; i < len; i++) {
+            p10[i + 1] = (p10[i] * 10) % MOD;
             
-            if (d > 0) {
-                B[i + 1] = (int) ((B[i] * 10L + d) % MOD);
-                len[i + 1] = len[i] + 1;
+            int digit = s.charAt(i) - '0';
+            preSum[i + 1] = preSum[i] + digit;
+            
+            if (digit == 0) {
+                preProduct[i + 1] = preProduct[i];
+                nonZeroCnt[i + 1] = nonZeroCnt[i];
             } else {
-                B[i + 1] = B[i];
-                len[i + 1] = len[i];
+                preProduct[i + 1] = (preProduct[i] * 10 + digit) % MOD;
+                nonZeroCnt[i + 1] = nonZeroCnt[i] + 1;
             }
         }
-
+        
         int[] res = new int[queries.length];
-        int i = 0;
-
-        for (int[] q : queries) {
-            int l = q[0], r = q[1] + 1;
+        for (int i = 0; i < queries.length; i++) {
+            int start = queries[i][0];
+            int end = queries[i][1];
             
-            long sub = ((long) B[l] * pow[len[r] - len[l]]) % MOD;
-            long x = (B[r] - sub + MOD) % MOD;
+            long sum = preSum[end + 1] - preSum[start];
             
-            res[i++] = (int) ((x * (A[r] - A[l])) % MOD);
+            int cnt = nonZeroCnt[end + 1] - nonZeroCnt[start];
+            
+            long subtract = (preProduct[start] * p10[cnt]) % MOD;
+            long x = (preProduct[end + 1] - subtract + MOD) % MOD;
+            
+            res[i] = (int) ((x * sum) % MOD);
         }
-
+        
         return res;
     }
 }
